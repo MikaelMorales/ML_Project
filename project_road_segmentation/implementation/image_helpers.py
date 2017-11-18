@@ -13,7 +13,7 @@ def load_n_images_groundtruth(image_dir, gt_dir, n):
     files = os.listdir(image_dir)
     n = min(n, len(files)) # Load maximum 20 images
     imgs = [load_image(image_dir + files[i]) for i in range(n)]
-    
+
     gt_imgs = [load_image(gt_dir + files[i]) for i in range(n)]
     return imgs, gt_imgs
 
@@ -31,7 +31,7 @@ def concatenate_images(img, gt_img):
         cimg = np.concatenate((img, gt_img), axis=1)
     else:
         gt_img_3c = np.zeros((w, h, 3), dtype=np.uint8)
-        gt_img8 = img_float_to_uint8(gt_img)          
+        gt_img8 = img_float_to_uint8(gt_img)
         gt_img_3c[:,:,0] = gt_img8
         gt_img_3c[:,:,1] = gt_img8
         gt_img_3c[:,:,2] = gt_img8
@@ -74,4 +74,10 @@ def make_img_overlay(img, predicted_img):
     overlay = Image.fromarray(color_mask, 'RGB').convert("RGBA")
     new_img = Image.blend(background, overlay, 0.2)
     return new_img
-    
+
+def build_color_mask(img, predicted_img):
+    w = img.shape[0]
+    h = img.shape[1]
+    color_mask = np.zeros((w, h, 3), dtype=np.float64)
+    color_mask[:,:,0] = predicted_img
+    return color_mask[:,:,0]
