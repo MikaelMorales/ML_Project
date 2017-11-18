@@ -4,3 +4,4 @@
 project_road_segmentation/training/**
 project_road_segmentation/test_set_images/**
 **/.ipynb_checkpoints/**
+project_road_segmentation/implementation/.ipynb_checkpoints/working_copy_segment_aerial_images-checkpoint.ipynb
