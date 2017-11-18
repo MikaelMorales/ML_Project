@@ -1,4 +1,6 @@
-
 **/*.csv
 **/.DS_Store
 **/__pycache__/*
+project_road_segmentation/training/**
+project_road_segmentation/test_set_images/**
+project_road_segmentation/.ipynb_checkpoints/**
