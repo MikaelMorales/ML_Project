@@ -20,7 +20,7 @@ def extract_features_2d(img):
 def extract_features_8d(img,idx,patch_size, length):
     feat = extract_features(img)
     n = length / patch_size
-    feat_i = idx / n
+    feat_i = (idx / n ) % 25
     feat = np.append(feat, feat_i)
     feat_j = idx % n
     feat = np.append(feat,feat_j)
