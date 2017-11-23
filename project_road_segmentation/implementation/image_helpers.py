@@ -12,9 +12,9 @@ def load_n_images_groundtruth(image_dir, gt_dir, n):
     # Loaded a set of images
     files = os.listdir(image_dir)
     n = min(n, len(files)) # Load maximum 20 images
-    imgs = [load_image(image_dir + files[i]) for i in range(n)]
+    imgs = np.asarray([load_image(image_dir + files[i]) for i in range(n)])
 
-    gt_imgs = [load_image(gt_dir + files[i]) for i in range(n)]
+    gt_imgs = np.asarray([load_image(gt_dir + files[i]) for i in range(n)])
     return imgs, gt_imgs
 
 def img_float_to_uint8(img):
@@ -52,6 +52,13 @@ def img_crop(im, w, h):
                 im_patch = im[j:j+w, i:i+h, :]
             list_patches.append(im_patch)
     return list_patches
+
+def create_patches(X, patchSize):
+    img_patches = [img_crop(X[i], patchSize, patchSize) for i in range(X.shape[0])]
+    # Linearize list
+    img_patches = np.asarray([img_patches[i][j] for i in range(len(img_patches)) for j in range(len(img_patches[i]))])
+
+    return img_patches
 
 # Convert array of labels to an image
 def label_to_img(imgwidth, imgheight, w, h, labels):

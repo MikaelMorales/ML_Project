@@ -20,5 +20,5 @@ def extract_features_2d(img):
 def extract_img_features(filename, patchSize):
     img = load_image(filename)
     img_patches = img_crop(img, patchSize, patchSize)
-    X = np.asarray([extract_features_2d(img_patches[i]) for i in range(len(img_patches))])
+    X = np.asarray([extract_features(img_patches[i]) for i in range(len(img_patches))])
     return X
