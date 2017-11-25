@@ -1,5 +1,6 @@
 #!/usr/bin/python
-from image_helpers import *
+from image_helpers import load_image, img_crop
+from classification import *
 import numpy as np
 
 # Extract 6-dimensional features consisting of average RGB color as well as variance
@@ -22,3 +23,9 @@ def extract_img_features(filename, patchSize):
     img_patches = img_crop(img, patchSize, patchSize)
     X = np.asarray([extract_features(img_patches[i]) for i in range(len(img_patches))])
     return X
+
+def extract_features_from_patches(img_patches):
+    return np.asarray([extract_features(img_patches[i]) for i in range(len(img_patches))])
+
+def extract_features_from_gt_patches(gt_patches, foreground_threshold):
+    return np.asarray([value_to_class(np.mean(gt_patches[i]), foreground_threshold) for i in range(len(gt_patches))])

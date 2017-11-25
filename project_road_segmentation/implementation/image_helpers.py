@@ -53,12 +53,9 @@ def img_crop(im, w, h):
             list_patches.append(im_patch)
     return list_patches
 
-def create_patches(X, patchSize):
+def create_linearized_patches(X, patchSize):
     img_patches = [img_crop(X[i], patchSize, patchSize) for i in range(X.shape[0])]
-    # Linearize list
-    img_patches = np.asarray([img_patches[i][j] for i in range(len(img_patches)) for j in range(len(img_patches[i]))])
-
-    return img_patches
+    return np.asarray([img_patches[i][j] for i in range(len(img_patches)) for j in range(len(img_patches[i]))])
 
 # Convert array of labels to an image
 def label_to_img(imgwidth, imgheight, w, h, labels):
@@ -81,10 +78,3 @@ def make_img_overlay(img, predicted_img):
     overlay = Image.fromarray(color_mask, 'RGB').convert("RGBA")
     new_img = Image.blend(background, overlay, 0.2)
     return new_img
-
-def build_color_mask(img, predicted_img):
-    w = img.shape[0]
-    h = img.shape[1]
-    color_mask = np.zeros((w, h, 3), dtype=np.float64)
-    color_mask[:,:,0] = predicted_img
-    return color_mask[:,:,0]
