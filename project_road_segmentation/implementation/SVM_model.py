@@ -27,7 +27,7 @@ class SVM:
         
         self.model.fit(X, Y)
         
-        print(str(self.model.cv_results_['mean_test_score']))
+        print('Accuracy=' + str(np.mean(self.model.cv_results_['mean_test_score'])))
         
     def predict(self, img):
         print('Classifying...')
