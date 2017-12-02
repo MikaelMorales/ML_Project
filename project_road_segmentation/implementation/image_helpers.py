@@ -57,6 +57,11 @@ def create_linearized_patches(X, patchSize):
     img_patches = [img_crop(X[i], patchSize, patchSize) for i in range(X.shape[0])]
     return np.asarray([img_patches[i][j] for i in range(len(img_patches)) for j in range(len(img_patches[i]))])
 
+def create_linearized_patches_with_dimensions(X, patchSize):
+    img_patches = [(img_crop(X[i], patchSize, patchSize), int(X[i].shape[0]/patchSize), int(X[i].shape[1]/patchSize)) for i in range(X.shape[0])]
+    res =  np.asarray([(img_patches[i][0][j], img_patches[i][1], img_patches[i][2]) for i in range(len(img_patches)) for j in range(len(img_patches[i][0]))])
+    return res
+
 # Convert array of labels to an image
 def label_to_img(imgwidth, imgheight, w, h, labels):
     im = np.zeros([imgwidth, imgheight])
