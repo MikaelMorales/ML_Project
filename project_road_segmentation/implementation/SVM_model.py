@@ -30,6 +30,5 @@ class SVM:
         print('Accuracy=' + str(np.mean(self.model.cv_results_['mean_test_score'])))
         
     def predict(self, img):
-        print('Classifying...')
         X = extract_img_features(img, self.patchSize)
         return self.model.predict(X)

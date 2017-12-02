@@ -78,3 +78,7 @@ def make_img_overlay(img, predicted_img):
     overlay = Image.fromarray(color_mask, 'RGB').convert("RGBA")
     new_img = Image.blend(background, overlay, 0.2)
     return new_img
+
+def load_test_images():
+    imgs = np.asarray([load_image('../test_set_images/test_'+str(i)+'/test_'+str(i)+'.png') for i in range(1, 51)])
+    return imgs
