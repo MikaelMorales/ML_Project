@@ -53,6 +53,16 @@ def img_crop(im, w, h):
             list_patches.append(im_patch)
     return list_patches
 
+def img_crop_with_padding(im, old, w, h):
+    list_patches = []
+    imgwidth = old.shape[0]
+    imgheight = old.shape[1]
+    for i in range(0,imgheight,h):
+        for j in range(0,imgwidth,w):
+            im_patch = im[j:j+(3*w), i:i+(3*h), :]
+            list_patches.append(im_patch)
+    return list_patches
+
 def create_linearized_patches(X, patchSize):
     img_patches = [img_crop(X[i], patchSize, patchSize) for i in range(X.shape[0])]
     return np.asarray([img_patches[i][j] for i in range(len(img_patches)) for j in range(len(img_patches[i]))])

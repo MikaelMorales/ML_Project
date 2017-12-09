@@ -25,10 +25,9 @@ def extract_img_features(filename, patchSize):
     return X
 
 def extract_img_features_with_neighbors(filename, patchSize):
-     img = load_image(filename)
-     img_patches_with_dim = create_linearized_patches_with_dimensions([img], patchSize)
-     return extract_features_img_patches_with_neighbors(img_patches_with_dim)[0]
-
+    img = load_image(filename)
+    img_patches_with_dim = create_linearized_patches_with_dimensions([img], patchSize)
+    return extract_features_img_patches_with_neighbors(img_patches_with_dim)[0]
 
 def extract_features_from_patches(img_patches):
     return np.asarray([extract_features(img_patches[i]) for i in range(len(img_patches))])
