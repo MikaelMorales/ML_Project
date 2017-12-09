@@ -26,7 +26,7 @@ def predict_and_display_image(model, img, gt, real_img):
 
     plt.imshow(new_img)
     
-def predict_test_set_images(filename, model):
+def predict_test_set_images(filename, model, cnn=False):
     imgs = load_test_images()
     imgs_path = ['../test_set_images/test_'+str(i)+'/test_'+str(i)+'.png' for i in range(1, 51)]
     prediction_filenames = []
@@ -35,7 +35,10 @@ def predict_test_set_images(filename, model):
         prediction_filenames.append('predictions/prediction' + str(i+1) + '.png')
 
     for i in range(len(imgs)):
-        Zi = model.predict(imgs_path[i])
+        if not cnn:
+            Zi = model.predict(imgs_path[i])
+        else:
+            Zi = model.predict(load_image(imgs_path[i]))
         w = imgs[i].shape[0]
         h = imgs[i].shape[1]
         predicted_im = label_to_img(w, h, model.patchSize, model.patchSize, Zi)
