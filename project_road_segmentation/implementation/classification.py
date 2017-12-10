@@ -35,6 +35,7 @@ def predict_test_set_images(filename, model, cnn=False):
         prediction_filenames.append('predictions/prediction' + str(i+1) + '.png')
 
     for i in range(len(imgs)):
+        print('Predicting test image number ' + str(i+1))
         if not cnn:
             Zi = model.predict(imgs_path[i])
         else:
@@ -49,4 +50,5 @@ def predict_test_set_images(filename, model, cnn=False):
 
         mpimg.imsave(prediction_filenames[i], color_mask)
     
-    masks_to_submission(filename, *prediction_filenames)
+    print('Generating csv file: ' + filename)
+    masks_to_submission('predictions_csv/'+filename, *prediction_filenames)

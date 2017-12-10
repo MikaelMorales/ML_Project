@@ -18,14 +18,14 @@ class CNN:
         self.setModel()
     
     def save_weights(self, file):
-        self.model.save_weights(file)
+        self.model.save_weights('cnn_weights/'+file)
         
     def load_weights(self, file):
-        self.model.load_weights(file)
+        self.model.load_weights('cnn_weights/'+file)
 
     def setModel(self):
-        input_shape = (16, 16, 3)
-        #input_shape = (48, 48, 3)
+        #input_shape = (16, 16, 3)
+        input_shape = (48, 48, 3)
 
         pool_size = (2,2)
         nb_classes = 2
@@ -51,10 +51,10 @@ class CNN:
                       metrics=['accuracy'])
         
     def train(self, X, Y):
-        #X_new = np.asarray([np.lib.pad(X[i],((self.patchSize, self.patchSize), (self.patchSize, self.patchSize), (0,0)), 'reflect') for i in range(len(X))])
-        #img_patches = [img_crop_with_padding(X_new[i], X[i], self.patchSize, self.patchSize) for i in range(X_new.shape[0])]
-        #img_patches = np.asarray([img_patches[i][j] for i in range(len(img_patches)) for j in range(len(img_patches[i]))])
-        img_patches = create_linearized_patches(X, self.patchSize)        
+        X_new = np.asarray([np.lib.pad(X[i],((self.patchSize, self.patchSize), (self.patchSize, self.patchSize), (0,0)), 'reflect') for i in range(len(X))])
+        img_patches = [img_crop_with_padding(X_new[i], X[i], self.patchSize, self.patchSize) for i in range(X_new.shape[0])]
+        img_patches = np.asarray([img_patches[i][j] for i in range(len(img_patches)) for j in range(len(img_patches[i]))])
+        #img_patches = create_linearized_patches(X, self.patchSize)        
 
         gt_patches = create_linearized_patches(Y, self.patchSize)        
         Y = extract_features_from_gt_patches(gt_patches, self.foreground_threshold)
@@ -69,13 +69,12 @@ class CNN:
                        callbacks=[stop_callback])
     
     def predict(self, img):
-        print('Classifying...')
-        #X = np.lib.pad(img, ((self.patchSize, self.patchSize), (self.patchSize, self.patchSize), (0,0)), 'reflect')
-        #img_patches = [img_crop_with_padding(X, img, self.patchSize, self.patchSize)]
-        #img_patches = np.asarray([img_patches[i][j] for i in range(len(img_patches)) for j in range(len(img_patches[i]))])
-        
-        img_patches = [img_crop(img, self.patchSize, self.patchSize)]
+        X = np.lib.pad(img, ((self.patchSize, self.patchSize), (self.patchSize, self.patchSize), (0,0)), 'reflect')
+        img_patches = [img_crop_with_padding(X, img, self.patchSize, self.patchSize)]
         img_patches = np.asarray([img_patches[i][j] for i in range(len(img_patches)) for j in range(len(img_patches[i]))])
+        
+        #img_patches = [img_crop(img, self.patchSize, self.patchSize)]
+        #img_patches = np.asarray([img_patches[i][j] for i in range(len(img_patches)) for j in range(len(img_patches[i]))])
 
         Z = self.model.predict(img_patches)
         return np.argmax(Z, axis=1)
