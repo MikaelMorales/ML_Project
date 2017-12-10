@@ -32,7 +32,7 @@ def predict_test_set_images(filename, model, cnn=False):
     prediction_filenames = []
     
     for i in range(len(imgs)):
-        prediction_filenames.append('predictions/prediction' + str(i+1) + '.png')
+        prediction_filenames.append('predictions_groundtruth/prediction' + str(i+1) + '.png')
 
     for i in range(len(imgs)):
         print('Predicting test image number ' + str(i+1))
