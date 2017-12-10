@@ -8,13 +8,28 @@ def load_image(infilename):
     data = mpimg.imread(infilename)
     return data
 
-def load_n_images_groundtruth(image_dir, gt_dir, n):
+def load_n_images_groundtruth(image_dir, gt_dir, n, rotate=False):
     # Loaded a set of images
     files = os.listdir(image_dir)
     n = min(n, len(files)) # Load maximum 20 images
-    imgs = np.asarray([load_image(image_dir + files[i]) for i in range(n)])
 
-    gt_imgs = np.asarray([load_image(gt_dir + files[i]) for i in range(n)])
+    if not rotate:
+        imgs = np.asarray([load_image(image_dir + files[i]) for i in range(n)])
+        gt_imgs = np.asarray([load_image(gt_dir + files[i]) for i in range(n)])
+    else:
+        imgs = []
+        gt_imgs = []
+        for i in range(n):
+            img = load_image(image_dir + files[i])
+            imgs.append(img)
+            imgs.append(np.rot90(img))
+            gt_img = load_image(gt_dir + files[i])
+            gt_imgs.append(gt_img)
+            gt_imgs.append(np.rot90(gt_img))
+
+        imgs = np.asarray(imgs)
+        gt_imgs = np.asarray(gt_imgs)
+
     return imgs, gt_imgs
 
 def img_float_to_uint8(img):

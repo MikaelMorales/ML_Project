@@ -30,19 +30,19 @@ class CNN:
         pool_size = (2,2)
         nb_classes = 2
         
-        self.model.add(Conv2D(64, kernel_size=(3,3), padding='same', input_shape=input_shape, activation='relu'))
+        self.model.add(Conv2D(128, kernel_size=(5,5), strides=(2,2), padding='same', input_shape=input_shape, activation='relu'))
         self.model.add(MaxPooling2D(pool_size=pool_size, padding='same'))
         self.model.add(Dropout(0.25))
         
-        self.model.add(Conv2D(128, kernel_size=(3,3), padding='same', activation='relu'))
+        self.model.add(Conv2D(254, kernel_size=(3,3), padding='same', activation='relu'))
         self.model.add(MaxPooling2D(pool_size=pool_size, padding='same'))
         self.model.add(Dropout(0.25))
         
-        self.model.add(Conv2D(256, kernel_size=(3,3), padding='same', activation='relu'))
-        self.model.add(MaxPooling2D(pool_size=pool_size, padding='same'))
+        #self.model.add(Conv2D(256, kernel_size=(3,3), padding='same', activation='relu'))
+        #self.model.add(MaxPooling2D(pool_size=pool_size, padding='same'))
 
         self.model.add(Flatten())
-        self.model.add(Dense(128, activation='relu'))
+        self.model.add(Dense(256, activation='relu'))
         self.model.add(Dropout(0.5))
         self.model.add(Dense(nb_classes, activation='softmax'))
         
