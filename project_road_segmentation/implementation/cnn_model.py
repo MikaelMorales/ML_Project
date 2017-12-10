@@ -27,23 +27,21 @@ class CNN:
         #input_shape = (16, 16, 3)
         input_shape = (48, 48, 3)
         num_classes = 2
+
         #https://ujjwalkarn.me/2016/08/11/intuitive-explanation-convnets/
         self.model.add(Conv2D(128, kernel_size=(5,5), strides=(2,2), input_shape=input_shape, activation='relu'))
         self.model.add(MaxPooling2D(pool_size=(2,2)))
         self.model.add(Dropout(0.25))
-        
-        self.model.add(Conv2D(256, kernel_size=(3,3), padding='same', activation='relu'))
-        self.model.add(MaxPooling2D(pool_size=(2,2), padding='same'))
+
+        self.model.add(Conv2D(256, kernel_size=(3,3), activation='relu'))
+        self.model.add(MaxPooling2D(pool_size=(2,2)))
         self.model.add(Dropout(0.25))
-        
-        #self.model.add(Conv2D(256, kernel_size=(3,3), padding='same', activation='relu'))
-        #self.model.add(MaxPooling2D(pool_size=(2,2), padding='same'))
 
         self.model.add(Flatten())
         self.model.add(Dense(256, activation='relu'))
         self.model.add(Dropout(0.5))
         self.model.add(Dense(num_classes, activation='softmax'))
-        
+
         self.model.compile(loss='categorical_crossentropy',
                       optimizer=Adam(),
                       metrics=['accuracy'])
@@ -57,13 +55,13 @@ class CNN:
         gt_patches = create_linearized_patches(Y, self.patchSize)        
         Y = extract_features_from_gt_patches(gt_patches, self.foreground_threshold)
         Y = to_categorical(Y, num_classes=self.num_classes)
-        
+
         stop_callback = EarlyStopping(monitor='acc', min_delta=0.0001, patience=3, verbose=1, mode='auto')
 
         self.model.fit(img_patches, Y, 
                        validation_split=0.2,
                        batch_size=128,
-                       epochs=10,
+                       epochs=20,
                        callbacks=[stop_callback])
     
     def predict(self, img):
