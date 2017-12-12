@@ -26,22 +26,7 @@ class CNN:
     def setModel(self):
         #input_shape = (16, 16, 3)
         input_shape = (48, 48, 3)
-<<<<<<< HEAD
 
-        pool_size = (2,2)
-        nb_classes = 2
-        
-        self.model.add(Conv2D(128, kernel_size=(5,5), strides=(2,2), padding='same', input_shape=input_shape, activation='relu'))
-        self.model.add(MaxPooling2D(pool_size=pool_size, padding='same'))
-        self.model.add(Dropout(0.25))
-        
-        self.model.add(Conv2D(254, kernel_size=(3,3), padding='same', activation='relu'))
-        self.model.add(MaxPooling2D(pool_size=pool_size, padding='same'))
-        self.model.add(Dropout(0.25))
-        
-        #self.model.add(Conv2D(256, kernel_size=(3,3), padding='same', activation='relu'))
-        #self.model.add(MaxPooling2D(pool_size=pool_size, padding='same'))
-=======
         num_classes = 2
         #https://ujjwalkarn.me/2016/08/11/intuitive-explanation-convnets/
         self.model.add(Conv2D(128, kernel_size=(5,5), strides=(2,2), input_shape=input_shape, activation='relu'))
@@ -54,7 +39,6 @@ class CNN:
         
         #self.model.add(Conv2D(256, kernel_size=(3,3), padding='same', activation='relu'))
         #self.model.add(MaxPooling2D(pool_size=(2,2), padding='same'))
->>>>>>> f327adad0c92e05365b2ebf1ec6dc0ea46fac0ef
 
         self.model.add(Flatten())
         self.model.add(Dense(256, activation='relu'))
