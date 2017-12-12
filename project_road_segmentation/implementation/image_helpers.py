@@ -75,7 +75,7 @@ def img_crop_with_padding(im, old, w, h):
     imgheight = old.shape[1]
     for i in range(0,imgheight,h):
         for j in range(0,imgwidth,w):
-            im_patch = im[j:j+(3*w), i:i+(3*h), :]
+            im_patch = im[j:j+(5*w), i:i+(5*h), :]
             list_patches.append(im_patch)
     return list_patches
 
