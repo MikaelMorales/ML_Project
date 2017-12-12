@@ -22,10 +22,11 @@ def load_n_images_groundtruth(image_dir, gt_dir, n, rotate=False):
         for i in range(n):
             img = load_image(image_dir + files[i])
             imgs.append(img)
-            imgs.append(np.rot90(img))
             gt_img = load_image(gt_dir + files[i])
             gt_imgs.append(gt_img)
-            gt_imgs.append(np.rot90(gt_img))
+            for k in range(1, 4):
+                imgs.append(np.rot90(img, k))
+                gt_imgs.append(np.rot90(gt_img, k))
 
         imgs = np.asarray(imgs)
         gt_imgs = np.asarray(gt_imgs)
