@@ -26,6 +26,7 @@ class CNN:
     def setModel(self):
         #input_shape = (16, 16, 3)
         input_shape = (48, 48, 3)
+
         num_classes = 2
 
         #https://ujjwalkarn.me/2016/08/11/intuitive-explanation-convnets/
