@@ -26,8 +26,8 @@ class CNN:
 
         num_classes = 2
         #https://ujjwalkarn.me/2016/08/11/intuitive-explanation-convnets/
-        self.model.add(Conv2D(128, kernel_size=(5,5), strides=(2,2), input_shape=input_shape, activation='relu', padding='same'))
-        self.model.add(MaxPooling2D(pool_size=(2,2), padding='same'))
+        self.model.add(Conv2D(128, kernel_size=(5,5), strides=(2,2), input_shape=input_shape, activation='relu'))
+        self.model.add(MaxPooling2D(pool_size=(2,2)))
         self.model.add(Dropout(0.25))
 
         self.model.add(Conv2D(256, kernel_size=(3,3), padding='same', activation='relu'))
