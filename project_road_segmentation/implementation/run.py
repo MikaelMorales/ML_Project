@@ -12,6 +12,7 @@ def main():
     gt_dir = "../training/groundtruth/"
     files = os.listdir(image_dir)
 
+    release = False
     patch_size = 16
     foregroud_threshold = 0.25
 
@@ -20,20 +21,19 @@ def main():
 
     model = CNN(patch_size, foregroud_threshold)
 
-    try:
-        model.train(imgs, gt_imgs)
-    except KeyboardInterrupt:
-        pass
+    if not release:
+        # Training
+        try:
+            model.train(imgs, gt_imgs)
+        except KeyboardInterrupt:
+            pass
 
-    model.save_weights('test_regularizer.h5')
+        model.save_weights('run_weights.h5')
+    else:
+        # Loading existing weight
+        model.load_weights('run_weights.h5')
 
-    #Predict and Display image
-    #img_idx = 6
-    #Z = model.predict(imgs[img_idx])
-    #print(Z)
-    #predict_and_display_image(model, imgs[img_idx], gt_imgs[img_idx], imgs[img_idx])
-
-    predict_test_set_images('test_regularizer.csv', model, cnn=True)
+    predict_test_set_images('run_results.csv', model, cnn=True)
 
 if __name__ == "__main__":
     main()
