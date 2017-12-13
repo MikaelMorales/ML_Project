@@ -25,7 +25,7 @@ def main():
     except KeyboardInterrupt:
         pass
 
-    model.save_weights('ahahah.h5')
+    model.save_weights('test_regularizer.h5')
 
     #Predict and Display image
     #img_idx = 6
@@ -33,7 +33,7 @@ def main():
     #print(Z)
     #predict_and_display_image(model, imgs[img_idx], gt_imgs[img_idx], imgs[img_idx])
 
-    predict_test_set_images('test.csv', model, cnn=True)
+    predict_test_set_images('test_regularizer.csv', model, cnn=True)
 
 if __name__ == "__main__":
     main()

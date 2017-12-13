@@ -38,9 +38,9 @@ class CNN:
         self.model.add(Dropout(0.25))
         
         self.model.add(Flatten())
-        self.model.add(Dense(256, activation='relu'))
+        self.model.add(Dense(256, activation='relu', kernel_regularizer=l2(1e-5)))
         self.model.add(Dropout(0.5))
-        self.model.add(Dense(num_classes, activation='softmax'))
+        self.model.add(Dense(num_classes, activation='softmax', kernel_regularizer=l2(1e-5)))
         
         self.model.compile(loss='categorical_crossentropy',
                       optimizer=Adam(),
