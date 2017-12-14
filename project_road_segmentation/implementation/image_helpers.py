@@ -113,3 +113,42 @@ def make_img_overlay(img, predicted_img):
 def load_test_images():
     imgs = np.asarray([load_image('../test_set_images/test_'+str(i)+'/test_'+str(i)+'.png') for i in range(1, 51)])
     return imgs
+
+def post_processing(predicted_img):
+    processed = predicted_img
+    l, c = predicted_img.shape
+    for i in range(l):
+        for j in range(c):
+            if is_alone(i, j, l, c, predicted_img, predicted_img[i][j]):
+                if predicted_img[i][j] == 1:
+                    processed[i][j] = 0
+                else:
+                    processed[i][j] = 1
+
+    return processed
+
+def is_alone(i, j, l, c, predicted_labels, value):
+    if i > 0:
+        if predicted_labels[i-1][j] == value: # the patch above
+            return False
+        if j > 0 and predicted_labels[i-1][j-1] == value: # the patch on the left diagonal above
+            return False
+        if j < (c-1) and predicted_labels[i-1][j+1] == value: # the patch on the right diagonal above
+            return False
+
+    if i < (l-1):
+        if predicted_labels[i+1][j] == value: # the patch bellow
+            return False
+        if j > 0 and predicted_labels[i+1][j-1] == value: # the patch on the left diagonal below
+            return False
+        if j < (c-1) and predicted_labels[i+1][j+1] == value: # the patch on the right diagonal below
+            return False
+
+    if j > 0 and predicted_labels[i][j-1] == value: # the patch on the left
+        return False
+
+    if j < (c-1) and predicted_labels[i][j+1] == value: # the patch on the right
+        return False
+
+    return True
+

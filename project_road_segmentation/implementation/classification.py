@@ -30,7 +30,6 @@ def predict_test_set_images(filename, model, cnn=False):
     imgs = load_test_images()
     imgs_path = ['../test_set_images/test_'+str(i)+'/test_'+str(i)+'.png' for i in range(1, 51)]
     prediction_filenames = []
-    
     for i in range(len(imgs)):
         prediction_filenames.append('predictions_groundtruth/prediction' + str(i+1) + '.png')
 
@@ -40,9 +39,12 @@ def predict_test_set_images(filename, model, cnn=False):
             Zi = model.predict(imgs_path[i])
         else:
             Zi = model.predict(load_image(imgs_path[i]))
+        
         w = imgs[i].shape[0]
         h = imgs[i].shape[1]
-        predicted_im = label_to_img(w, h, model.patchSize, model.patchSize, Zi)
+        Zi = Zi.reshape((int(h/model.patchSize), int(w/model.patchSize)))
+        new_labels = post_processing(Zi).reshape(-1)
+        predicted_im = label_to_img(w, h, model.patchSize, model.patchSize, new_labels)
         color_mask = np.zeros((w, h, 3), dtype=np.float)
         color_mask[:,:,0] = predicted_im
         color_mask[:,:,1] = predicted_im
