@@ -10,13 +10,12 @@ This project was solved using sklearn first to train and predict using an Suppor
 
 We then implemented a Convolutionnal Neural Network(CNN). For this we used [Keras](https://keras.io/), a high level neural network API running over a [Tensorflow](https://www.tensorflow.org/) backend to do the computations.
 To run the code it is necessary to install the following libraries:
-* TensorFlow 1.3.0
-* Keras 2.0.8
+* TensorFlow 1.4.0
+* Keras 2.1.2
 
 ## Run the prediction
 
 In order to run the prediction without training you should:
-* Make sure the *release* variable in the run.py file is set to True
 * Make sure the `test_set_images` folder is located at the same level as the `implementation` folder
 * Go into the implementation folder and run the following command:
 ```

@@ -13,9 +13,6 @@ class SVM:
         self.model = GridSearchCV(SVC(), {'kernel':['rbf'], 'C':[C]}, cv=4, n_jobs=-1)
         self.with_neighbors = with_neighbors
 
-    def grid_search(self, C, gamma):
-        self.model = GridSearchCV(SVC(), {'kernel':['rbf'], 'C':C, 'gamma':gamma}, cv=4, n_jobs=-1)
-
     def train(self, Y, X):
         print('Training...')
         # Extract patches from input images and linearized them
