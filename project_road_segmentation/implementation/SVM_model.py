@@ -6,7 +6,6 @@ from image_helpers import *
 from features import *
 
 class SVM:
-
     def __init__(self, patchSize, foreground_threshold, C=1e6, with_neighbors=False):
         self.patchSize = patchSize
         self.foreground_threshold = foreground_threshold
