@@ -14,7 +14,6 @@ class SVM:
         self.with_neighbors = with_neighbors
 
     def train(self, Y, X):
-        print('Training...')
         # Extract patches from input images and linearized them
         if self.with_neighbors:
             img_patches = create_linearized_patches_with_dimensions(X, self.patchSize)

@@ -22,6 +22,7 @@ def main():
     # Loading existing weight
     model.load_weights('90_kaggle.h5')
 
+    # Predicting the test images
     predict_test_set_images('run_results.csv', model, cnn=True)
 
 if __name__ == "__main__":
