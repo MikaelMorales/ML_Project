@@ -6,18 +6,13 @@ from image_helpers import *
 from features import *
 
 class SVM:
-
     def __init__(self, patchSize, foreground_threshold, C=1e6, with_neighbors=False):
         self.patchSize = patchSize
         self.foreground_threshold = foreground_threshold
         self.model = GridSearchCV(SVC(), {'kernel':['rbf'], 'C':[C]}, cv=4, n_jobs=-1)
         self.with_neighbors = with_neighbors
 
-    def grid_search(self, C, gamma):
-        self.model = GridSearchCV(SVC(), {'kernel':['rbf'], 'C':C, 'gamma':gamma}, cv=4, n_jobs=-1)
-
     def train(self, Y, X):
-        print('Training...')
         # Extract patches from input images and linearized them
         if self.with_neighbors:
             img_patches = create_linearized_patches_with_dimensions(X, self.patchSize)

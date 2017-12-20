@@ -9,6 +9,7 @@ def load_image(infilename):
     return data
 
 def load_n_images_groundtruth(image_dir, gt_dir, n, rotate=False):
+    ''' Load n images with their groundtruth'''
     # Loaded a set of images
     files = os.listdir(image_dir)
     n = min(n, len(files)) # Load maximum 20 images
@@ -34,12 +35,13 @@ def load_n_images_groundtruth(image_dir, gt_dir, n, rotate=False):
     return imgs, gt_imgs
 
 def img_float_to_uint8(img):
+    '''Convert image to uint8'''
     rimg = img - np.min(img)
     rimg = (rimg / np.max(rimg) * 255).round().astype(np.uint8)
     return rimg
 
-# Concatenate an image and its groundtruth
 def concatenate_images(img, gt_img):
+    '''Concatenate an image and its groundtruth'''
     nChannels = len(gt_img.shape)
     w = gt_img.shape[0]
     h = gt_img.shape[1]
@@ -56,6 +58,7 @@ def concatenate_images(img, gt_img):
     return cimg
 
 def img_crop(im, w, h):
+    '''Crop the image to generate a list of patches of size (w,h)'''
     list_patches = []
     imgwidth = im.shape[0]
     imgheight = im.shape[1]
@@ -70,6 +73,7 @@ def img_crop(im, w, h):
     return list_patches
 
 def img_crop_with_padding(im, old, w, h):
+    '''Crop the image to generate a list of patches of size (5*w,5*h)'''
     list_patches = []
     imgwidth = old.shape[0]
     imgheight = old.shape[1]
@@ -80,6 +84,7 @@ def img_crop_with_padding(im, old, w, h):
     return list_patches
 
 def create_linearized_patches(X, patchSize):
+    ''' Utility method that generate patches from a given image and linearize the result'''
     img_patches = [img_crop(X[i], patchSize, patchSize) for i in range(X.shape[0])]
     return np.asarray([img_patches[i][j] for i in range(len(img_patches)) for j in range(len(img_patches[i]))])
 
@@ -88,8 +93,8 @@ def create_linearized_patches_with_dimensions(X, patchSize):
     res =  np.asarray([(img_patches[i][0][j], img_patches[i][1], img_patches[i][2]) for i in range(len(img_patches)) for j in range(len(img_patches[i][0]))])
     return res
 
-# Convert array of labels to an image
 def label_to_img(imgwidth, imgheight, w, h, labels):
+    '''Convert array of labels to an image'''
     im = np.zeros([imgwidth, imgheight])
     idx = 0
     for i in range(0,imgheight,h):
@@ -99,6 +104,7 @@ def label_to_img(imgwidth, imgheight, w, h, labels):
     return im
 
 def make_img_overlay(img, predicted_img):
+    '''Overlay the two given images'''
     w = img.shape[0]
     h = img.shape[1]
     color_mask = np.zeros((w, h, 3), dtype=np.uint8)
@@ -111,10 +117,14 @@ def make_img_overlay(img, predicted_img):
     return new_img
 
 def load_test_images():
+    '''Load the entire set of test images'''
     imgs = np.asarray([load_image('../test_set_images/test_'+str(i)+'/test_'+str(i)+'.png') for i in range(1, 51)])
     return imgs
 
 def post_processing(predicted_img):
+    '''Update the value of patches if it is surrounded by patches of the same value
+    Example: If a patche has value 0 and is surrounded by patches with value 1,
+             this patch will take value 1.'''
     processed = predicted_img
     l, c = predicted_img.shape
     for i in range(l):
@@ -128,6 +138,8 @@ def post_processing(predicted_img):
     return processed
 
 def is_alone(i, j, l, c, predicted_labels, value):
+    '''Return True if the patche at position (i,j) is surrounded by patches with the same value as the
+    parameter value, otherwise it returns False'''
     if i > 0:
         if predicted_labels[i-1][j] == value: # the patch above
             return False
